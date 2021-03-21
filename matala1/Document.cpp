@@ -18,7 +18,14 @@ namespace doc
         }
         else if (!flag)
         { // insert after
-            vec.insert(vec.begin() + this->numOfLine + 1, temp.begin(), temp.end());
+            if (!vec.empty())
+            {
+                vec.insert(vec.begin() + this->numOfLine + 1, temp.begin(), temp.end());
+            }
+            else
+            {
+                vec.insert(vec.begin(), temp.begin(), temp.end());
+            }
         }
         // replace the current line with the following text
         else
@@ -27,16 +34,16 @@ namespace doc
             // std::cout << numOfLine << std::endl;
             // std::cout << temp[0] << std::endl;
             vec[numOfLine] = temp[0];
-            numOfLine++;
+
             // insert the rest of the content.
-            vec.insert(vec.begin() + numOfLine, temp.begin() + 1, temp.end());
+            vec.insert(vec.begin() + numOfLine + 1, temp.begin() + 1, temp.end());
 
             //vec.insert(vec.begin()+this->numOfLine,temp.begin(),temp.begin())
         }
 
         // taking the pointer to the end of the vector
 
-        this->numOfLine = vec.size() - 1;
+        numOfLine = temp.size() + numOfLine - 1;
     }
 
     void Document::readFromFile(std::string context)
@@ -79,7 +86,7 @@ namespace doc
         if (context[0] == '+')
         {
 
-            if (numOfLine + num > vec.size())
+            if (numOfLine + num > vec.size() - 1)
             {
                 std::cout << "?" << std::endl;
             }
@@ -131,6 +138,8 @@ namespace doc
             if (it != std::string::npos)
             {
                 std::cout << *line << std::endl;
+
+                numOfLine = line - vec.begin();
                 return true;
             }
         }
@@ -144,6 +153,7 @@ namespace doc
             if (it != std::string::npos)
             {
                 std::cout << *line << std::endl;
+                numOfLine = line - vec.begin();
                 return true;
             }
         }
@@ -165,6 +175,10 @@ namespace doc
             vec[numOfLine].replace(it, oldWord.length(), newWord);
             return true;
         }
+        else
+        {
+            std::cout << "error" << std::endl;
+        }
 
         return false;
     }
@@ -181,7 +195,7 @@ namespace doc
 
     bool Document::writeData(std::string fileName)
     {
-         std::cout << "here";
+        std::cout << "here";
         std::ofstream myfile(fileName);
         if (myfile.is_open())
         {

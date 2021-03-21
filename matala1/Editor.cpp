@@ -145,7 +145,7 @@ namespace edit
                     break;
 
                 default:
-                    std::cout << "?2" << std::endl;
+                    std::cout << "?" << std::endl;
                     break;
                     // // printing data
                     // for (auto &e : document.vec)
@@ -166,17 +166,22 @@ namespace edit
 
             if (input.compare(".") == 0)
             {
+
                 document.insertData(temp, flag);
+
                 break;
             }
             // to avoid empty line casued by function getLine
             if (!(input.compare("") == 0))
+            {
                 temp.emplace_back(input);
+            }
         }
     }
 
     bool Editor::checkForSearch(std::string str, int indBegin, int intEnd, int flag)
     {
+       
         // if we want to check for / only in the begining and at the end of the string
         if (!flag)
             return str[indBegin] == '/' && str[intEnd] == '/';
@@ -185,12 +190,12 @@ namespace edit
         {
             if (!(str[indBegin] == '/' && str[intEnd] == '/'))
             {
-
+                
                 return false;
             }
             else
             {
-                for (int i = 2; i < str.size() - 2; i++)
+                for (int i = 2; i <= str.size() - 2; i++)
                 {
                     if (str[i] == '/')
                     {
@@ -198,7 +203,7 @@ namespace edit
                     }
                 }
             }
-
+           
             return false;
         }
     }
@@ -231,5 +236,4 @@ namespace edit
         document.replaceOldInNew(oldWord, newWord);
     }
 
- 
 } // namespace edit
